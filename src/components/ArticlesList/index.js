@@ -70,6 +70,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     allArticles: articleSelectors.getAllArticles(state),
+    currentPageArticles: articleSelectors.getAllArticlesOfCurrentPage(state),
     isLoading: state.articles.isLoading
   }
 }

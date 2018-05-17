@@ -5,6 +5,7 @@ import React from 'react';
 import PT from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import ArticleList from './components/ArticlesList';
 
 // import { actions as authActions } from '../../../../state/authentication';
 
@@ -16,7 +17,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="container">
-        Hello World
+        <ArticleList/>
       </div>
     )
 

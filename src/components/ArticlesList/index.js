@@ -23,9 +23,15 @@ class ArticleList extends React.Component {
   }
 
   render() {
-    const { allArticles } = this.props;
+    const { allArticles, isLoading } = this.props;
+    if(isLoading) {
+      return (
+        <div>Loading...</div>
+      )
+    }
     return(
-      <div>
+
+      <div className="container">
         <Table responsive> 
           <thead>
             <tr>
@@ -63,7 +69,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    allArticles: articleSelectors.getAllArticles(state)
+    allArticles: articleSelectors.getAllArticles(state),
+    isLoading: state.articles.isLoading
   }
 }
 

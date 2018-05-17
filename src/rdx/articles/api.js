@@ -13,7 +13,8 @@ const articlesFetch = async (page) => {
     const totalCount = response.headers['x-total-count'];
     return {
       data: response.data,
-      totalPageCount: totalCount
+      lastPage: Math.ceil(totalCount / LIMIT),
+      currentPage: page
     }
   } catch(err) {
     console.log(err);

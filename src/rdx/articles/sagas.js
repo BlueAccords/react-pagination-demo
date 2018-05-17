@@ -14,6 +14,7 @@ export function* articlesFetch(action) {
   const { payload } = action;
   try {
     const data = yield call(api.articlesFetch, payload);
+    yield put(actions.articlesSetCurrentPage(payload)); // set current page
     console.log(data);
     yield put(actions.articlesFetchSuccess(data));
   } catch(err) {

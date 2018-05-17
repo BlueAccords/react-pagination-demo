@@ -62,10 +62,43 @@ const allIds = (state = [], action) => {
   }
 }
 
+const currentPage = (state = 0, action) => {
+  switch(action.type) {
+    case types.ARTICLES_SET_CURRENT_PAGE:
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
+const lastPage = (state = 0, action) => {
+  switch(action.type) {
+    case types.ARTICLES_FETCH_SUCCESS:
+      return action.payload.lastPage
+    default:
+      return state;
+  }
+}
+
+const pages = (state = {}, action) => {
+  switch(action.type) {
+    case types.ARTICLES_FETCH_SUCCESS:
+      return {
+        ...state,
+        [action.payload.currentPage]: action.payload.data.map((item) => item.id)
+      }
+    default:
+      return state;
+  }
+}
+
 
 export default combineReducers({
   error,
   isLoading,
   byId,
-  allIds
+  allIds,
+  currentPage,
+  lastPage,
+  pages
 });

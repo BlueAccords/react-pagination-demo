@@ -2,7 +2,8 @@
 import { createSelector } from 'reselect';
 
 
-// input selectors
+// INPUT SELECTORS
+export const getIsArticleCached = (state, page) => state.articles.pages[page] !== undefined;
 const getArticlesById = (state) => state.articles.byId;
 const getArticlesAllIds = (state) => state.articles.allIds;
 const getArticleIdsByPage = state => {
@@ -16,15 +17,13 @@ const getArticleIdsByPage = state => {
     return pageIds
   }
 }
-// selectors
 
+// SELECTORS
 // get all artices by mapping the array of only ids to the object containing
 // all articles by their key
 export const getAllArticles = createSelector(
   [getArticlesById, getArticlesAllIds],
   (articlesById, articlesAllIds) => {
-    // console.log(articlesById);
-    // console.log(articlesAllIds);
     return articlesAllIds.map((allIdsKey) => articlesById[allIdsKey]);
   }
 )

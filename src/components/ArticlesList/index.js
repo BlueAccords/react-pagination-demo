@@ -9,53 +9,46 @@ import { Table } from 'react-bootstrap';
 
 import { actions as articleActions } from './../../rdx/articles';
 import { selectors as articleSelectors } from './../../rdx/articles'
-import Article from './Article';
+import ArticleTable from './ArticleTable';
+import withPaginated from './../common/withPagination';
+
+// composed with higher order function
+const ArticleTableWithPaginated = withPaginated(ArticleTable);
 
 
 class ArticleList extends React.Component {
   constructor(props) {
     super(props);
+
+    this.handlePageJump = this.handlePageJump.bind(this);
   }
 
   componentDidMount() {
-    const { actions } = this.props;
-    actions.fetchArticles(1);
+    const { fetchArticles } = this.props.actions;
+    fetchArticles(1);
   }
 
-  render() {
-    const { allArticles, isLoading } = this.props;
-    if(isLoading) {
-      return (
-        <div>Loading...</div>
-      )
+  handlePageJump(pageNum) {
+    const { fetchArticles } = this.props.actions;
+    return () => {
+      fetchArticles(pageNum);
     }
-    return(
+  }
 
-      <div className="container">
-        <Table responsive> 
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Folder Type</th>
-            </tr>
-          </thead>
-          <tbody>
-          { allArticles.map((article) => {
-              return <Article
-                key={article.id} 
-                id={article.id}
-                title={article.title}
-                description={article.description}
-                folder_type={article.folder_type}
-                />
-            })
-          }
-          </tbody>
-        </Table>
-      </div>
+
+  render() {
+    const { allArticles, isLoading, currentPageArticles, currentPage, lastPage } = this.props;
+    return (
+      <ArticleTableWithPaginated
+        allArticles={allArticles}
+        isLoading={isLoading}
+        currentPageArticles={currentPageArticles}
+        onJump={this.handlePageJump}
+        itemsCurrentPage={currentPage}
+        itemsLastPage={lastPage}
+      />
     )
+        
   }
 }
 
@@ -71,7 +64,9 @@ const mapStateToProps = (state) => {
   return {
     allArticles: articleSelectors.getAllArticles(state),
     currentPageArticles: articleSelectors.getAllArticlesOfCurrentPage(state),
-    isLoading: state.articles.isLoading
+    isLoading: state.articles.isLoading,
+    currentPage: state.articles.currentPage,
+    lastPage: state.articles.lastPage
   }
 }
 

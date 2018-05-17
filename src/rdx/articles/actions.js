@@ -21,6 +21,12 @@ export const articlesFetchFailure = function(error) {
   }
 }
 
+export const articlesFetchExit = function() {
+  return {
+    type: types.ARTICLES_FETCH_EXIT,
+  }
+}
+
 export const articlesSetCurrentPage = function(page) {
   return {
     type: types.ARTICLES_SET_CURRENT_PAGE,

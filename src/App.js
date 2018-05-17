@@ -24,19 +24,4 @@ class App extends React.Component {
   }
 }
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//       actions: bindActionCreators({
-//         userLogoutRequest: authActions.userLogoutRequest,
-//       }, dispatch)
-//   }
-// }
-
-// const mapStateToProps = (state) => {
-//   return {
-//     user: state.auth.user,
-//     isSessionLoaded: state.auth.isInitialSessionLoaded
-//   }
-// }
-
 export default connect(null, null)(App);

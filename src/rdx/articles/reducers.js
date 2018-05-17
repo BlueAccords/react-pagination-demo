@@ -1,10 +1,6 @@
 import * as types from './types';
 import { combineReducers } from 'redux';
 
-// export const ARTICLES_FETCH_REQUEST = 'ARTICLES_FETCH_REQUEST';
-// export const ARTICLES_FETCH_SUCCESS = 'ARTICLES_FETCH_SUCCESS';
-// export const ARTICLES_FETCH_FAILURE = 'ARTICLES_FETCH_FAILURE';
-
 const isLoading = (state = false, action) => {
   switch (action.type) {
     case types.ARTICLES_FETCH_REQUEST:
@@ -12,6 +8,8 @@ const isLoading = (state = false, action) => {
     case types.ARTICLES_FETCH_SUCCESS:
       return false;
     case types.ARTICLES_FETCH_FAILURE:
+      return false;
+    case types.ARTICLES_FETCH_EXIT: // used to prematurely exit fetch if articles are already cached
       return false;
     default:
       return state;

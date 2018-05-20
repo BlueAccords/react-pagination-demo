@@ -85,6 +85,28 @@ const pages = (state = {}, action) => {
         ...state,
         [action.payload.currentPage]: action.payload.data.map((item) => item.id)
       }
+    case types.ARTICLES_CLEAR_PAGE_CACHE:
+      return {}
+    default:
+      return state;
+  }
+}
+
+const sort = (state = {
+  sortKey: 'id',
+  sortDirection: 'ASC'
+}, action) => {
+  switch(action.type) {
+    case types.ARTICLES_SET_SORT_KEY:
+      return {
+        ...state,
+        sortKey: action.payload
+      }
+    case types.ARTICLES_SET_SORT_DIRECTION:
+      return {
+        ...state,
+        sortDirection: action.payload
+      }
     default:
       return state;
   }
@@ -98,5 +120,6 @@ export default combineReducers({
   allIds,
   currentPage,
   lastPage,
-  pages
+  pages,
+  sort
 });

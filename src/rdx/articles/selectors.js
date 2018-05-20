@@ -3,7 +3,10 @@ import { createSelector } from 'reselect';
 
 
 // INPUT SELECTORS
+export const getCurrentPage = (state) => state.articles.currentPage;
 export const getIsArticleCached = (state, page) => state.articles.pages[page] !== undefined;
+export const getSortKey = (state) => state.articles.sort.sortKey;
+export const getSortDirection = (state) => state.articles.sort.sortDirection;
 const getArticlesById = (state) => state.articles.byId;
 const getArticlesAllIds = (state) => state.articles.allIds;
 const getArticleIdsByPage = state => {

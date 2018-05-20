@@ -13,7 +13,6 @@ const withPaginated = (Component) => (props) => {
       return null;
     }
 
-    console.log(itemsCurrentPage);
     for (let i = 1; i <= itemsLastPage; i++) {
       buttonArr.push(
         <Button 

@@ -1,58 +1,31 @@
-## A redux enabled react app boilerplate (2018)
-React + Redux + React-Bootrstrap + Babel + WebPack + Stage-2 with hot module replacement
-And a basic ToDo App 
+Forked from https://github.com/HydroCarbons/redux-react-boilerplate-2018  
 
-I made this **redux** and **stage-2** enabled boilerplate to quickly get and up running with React+Redux programming with a dev and prod build and traspilation pipeline. You can also use react-bootstrap https://react-bootstrap.github.io/ components.
+Just a simple demo application to show pagination, sorting, and filtering.
 
-## Prepare
-1. **NodeJS**  
-``` https://nodejs.org/en/download/ ```
-2. **Webpack**
-``` npm install --global webpack ```
-3. **Clone this repository**
-``` $ https://github.com/HydroCarbons/redux-react-boilerplate-2018.git ```
-4. **Switch to project***
-```cd redux-react-boilerplate-2018```
-5. **Install Depedencies***
-``` npm install ```
+# Instructions
+- run `npm install`
+- Install [json-server](https://github.com/typicode/json-server) for the backend api. in global npm
+- run `json-server ./server/index.js` in a separate terminal tab
+- run `npm start` in a seperate terminal tab
 
-## Development Environment
+## Stack
+- React
+- Redux
+- Redux-Saga
+- Axios
+- React-Boostrap
 
-1. Start
-```
- npm start
-```
+## Server
+Uses [json-server](https://github.com/typicode/json-server) for the backend api.
 
-2. App running in your broswer
-```
- http://localhost:8081
-```
+## Pagination
+- Caches items, per page, in redux store as user changes pages.
+- If user changes sorting/filtering option then cache will be cleared
 
-## Production Environment
+## Sorting
+- Done via a `sortKey` and `sortDirection` select input, both inputs are controlled inputs controlled via react local state.
+- I tried to do this in the redux store but it just generated a lot of unnecessary boilerplate.
 
-1. Create build
-```
-  npm run build
-```
+## Filtering
+- done via a `searchFilter` inputbox, controlled input via local react component
 
-2. On successful completion, 'dist' folder will be created with app files.
-```
-1. bundle.js
-2. bundle.js.map
-3. <guid>.png << Application Icon
-4. index.html
-```
-
-## App
-
-### <a href="http://localhost:8081" target="_blank">Go to App</a>
-
-![Alt text](https://github.com/HydroCarbons/redux-react-boilerplate-2018/blob/master/docs/app.png)
-
-## Build Pipeline
-
-![Build Pipeline](https://github.com/HydroCarbons/redux-react-boilerplate-2018/blob/master/docs/workflow.png)
-
-
-## License
-This project is licensed under the Apache License 2.0, Copyright (c) 2018 HydroCarbons. For more information see LICENSE.md.

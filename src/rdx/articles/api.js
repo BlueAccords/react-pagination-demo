@@ -21,6 +21,9 @@ const articlesFetch = async (params) => {
     const url = BASE_URL.concat('articles/', '?', queryString);
     const response = await axios.get(url);
     const totalCount = response.headers['x-total-count'];
+    const lastPage = Math.ceil(totalCount / LIMIT);
+    // FIXME: the problem is if you make an api call for a page > last page in the api, 
+    // the api will just return an empty data set but it will still be a 200 response code.
     return {
       data: response.data,
       lastPage: Math.ceil(totalCount / LIMIT),

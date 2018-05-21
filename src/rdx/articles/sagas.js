@@ -16,7 +16,12 @@ export function* watchArticleFilterRequest() {
 
 export function* handleFilterRequest(action) {
   yield delay(FILTER_DEBOUNCE_DELAY);
-  yield put(actions.articlesFetchRequest(action.payload));
+
+  // execute article fetch after debounce delay
+  yield put(actions.articlesFetchRequest({
+    ...action.payload,
+    page: 1 // manually set page to 1 as filtered results can have less pages than current query params
+  }));
 }
 
 export function* watchArticleFetchRequest() {
@@ -33,7 +38,6 @@ export function* articlesFetch(action) {
     const currentPage = yield select(selectors.getCurrentPage);
     const pageParam = page ? page : currentPage; // get current page from payload or store if not provided
     const isPageCached = yield select(selectors.getIsArticleCached, pageParam);
-    yield put(actions.articlesSetCurrentPage(pageParam)); // set current page
 
 
     // check is page is already loaded before making api call
@@ -45,8 +49,10 @@ export function* articlesFetch(action) {
         sortDirection,
         searchFilter
       });
+      yield put(actions.articlesSetCurrentPage(data.currentPage)); // set current page
       yield put(actions.articlesFetchSuccess(data));
     } else {
+      yield put(actions.articlesSetCurrentPage(pageParam)); // set current page
       yield put(actions.articlesFetchExit());
     }
 

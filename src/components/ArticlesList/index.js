@@ -21,42 +21,71 @@ class ArticleList extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      sortKey: 'id',
+      sortDirection: 'ASC',
+      searchFilter: null
+    }
+
     this.handlePageJump = this.handlePageJump.bind(this);
-    this.handleSortKeyChange = this.handleSortKeyChange.bind(this);
-    this.handleSortDirectionChange = this.handleSortDirectionChange.bind(this);
+    this.handleQueryParamChange = this.handleQueryParamChange.bind(this);
+    this.handleSearchFilterChange = this.handleSearchFilterChange.bind(this);
   }
 
   componentDidMount() {
     const { fetchArticles } = this.props.actions;
-    fetchArticles(1);
+    fetchArticles(this.state);
   }
 
   handlePageJump(pageNum) {
     const { fetchArticles } = this.props.actions;
     return () => {
-      fetchArticles(pageNum);
+      fetchArticles({
+        ...this.state,
+        page: pageNum
+      });
     }
   }
 
-  handleSortKeyChange(e) {
-    this.props.actions.changeSortKey(e.target.value);
+  // returns a function that changes query param based on the passed param.
+  handleQueryParamChange(keyName) {
+    return (e) => {
+      this.setState({
+        ...this.state,
+        [keyName]: e.target.value
+      }, () => {
+        this.props.actions.fetchArticles({
+          ...this.state,
+          clearCache: true
+        });
+      });
+    }
   }
 
-  handleSortDirectionChange(e) {
-    this.props.actions.changeSortDirection(e.target.value);
+  // special version for filter to add a debounce delay while user is typing
+  handleSearchFilterChange(e) {
+    this.setState({
+      ...this.state,
+      searchFilter: e.target.value
+    }, () => {
+      this.props.actions.changeSearchFilter({
+        ...this.state,
+        clearCache: true
+      })
+    })
   }
 
 
   render() {
-    const { allArticles, isLoading, currentPageArticles, currentPage, lastPage,
-            sortKey, sortDirection } = this.props;
+    const { allArticles, isLoading, currentPageArticles, currentPage, lastPage } = this.props;
     return (
       <Fragment>
         <ArticleSortOptions
-          sortKey
-          sortDirection
-          onSortKeyChange={this.handleSortKeyChange} 
-          onSortDirectionChange={this.handleSortDirectionChange} 
+          sortKey={this.state.sortKey}
+          sortDirection={this.state.sortDirection}
+          onSearchFilterChange={this.handleSearchFilterChange}
+          onSortKeyChange={this.handleQueryParamChange('sortKey')} 
+          onSortDirectionChange={this.handleQueryParamChange('sortDirection')} 
         />
         <ArticleTableWithPaginated
           allArticles={allArticles}
@@ -76,8 +105,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
       actions: bindActionCreators({
         fetchArticles: articleActions.articlesFetchRequest,
-        changeSortKey: articleActions.articlesSetSortKeyRequest,
-        changeSortDirection: articleActions.articlesSetSortDirectionRequest,
+        changeSearchFilter: articleActions.articlesFilterRequest
       }, dispatch)
   }
 }
@@ -89,8 +117,6 @@ const mapStateToProps = (state) => {
     isLoading: state.articles.isLoading,
     currentPage: state.articles.currentPage,
     lastPage: state.articles.lastPage,
-    sortKey: state.articles.sortKey,
-    sortDirection: state.articles.sortDirection
   }
 }
 

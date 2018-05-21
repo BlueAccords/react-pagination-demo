@@ -60,7 +60,7 @@ const allIds = (state = [], action) => {
   }
 }
 
-const currentPage = (state = 0, action) => {
+const currentPage = (state = 1, action) => {
   switch(action.type) {
     case types.ARTICLES_SET_CURRENT_PAGE:
       return action.payload;
@@ -92,27 +92,6 @@ const pages = (state = {}, action) => {
   }
 }
 
-const sort = (state = {
-  sortKey: 'id',
-  sortDirection: 'ASC'
-}, action) => {
-  switch(action.type) {
-    case types.ARTICLES_SET_SORT_KEY:
-      return {
-        ...state,
-        sortKey: action.payload
-      }
-    case types.ARTICLES_SET_SORT_DIRECTION:
-      return {
-        ...state,
-        sortDirection: action.payload
-      }
-    default:
-      return state;
-  }
-}
-
-
 export default combineReducers({
   error,
   isLoading,
@@ -120,6 +99,5 @@ export default combineReducers({
   allIds,
   currentPage,
   lastPage,
-  pages,
-  sort
+  pages
 });

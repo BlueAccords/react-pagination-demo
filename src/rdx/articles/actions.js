@@ -1,11 +1,9 @@
 import * as types from './types';
 
-export const articlesFetchRequest = function(page) {
+export const articlesFetchRequest = function(payload) {
   return {
     type: types.ARTICLES_FETCH_REQUEST,
-    payload: {
-      page
-    }
+    payload
   }
 }
 
@@ -36,36 +34,17 @@ export const articlesSetCurrentPage = function(page) {
   }
 }
 
-export const articlesSetSortKeyRequest = function(payload) {
-  return {
-    type: types.ARTICLES_SET_SORT_KEY_REQUEST,
-    payload
-  }
-}
-
-export const articlesSetSortKey = function(payload) {
-  return {
-    type: types.ARTICLES_SET_SORT_KEY,
-    payload
-  }
-}
-
-export const articlesSetSortDirectionRequest = function(payload) {
-  return {
-    type: types.ARTICLES_SET_SORT_DIRECTION_REQUEST,
-    payload
-  }
-}
-
-export const articlesSetSortDirection = function(payload) {
-  return {
-    type: types.ARTICLES_SET_SORT_DIRECTION,
-    payload
-  }
-}
-
 export const articlesClearPageCache = function() {
     return {
       type: types.ARTICLES_CLEAR_PAGE_CACHE
     }
+}
+
+// this action does the same thing as fetchRequest, but adds a debounce of 2 seconds
+// to account for the user typing
+export const articlesFilterRequest = function(payload) {
+  return {
+    type: types.ARTICLES_FILTER_REQUEST,
+    payload
+  }
 }

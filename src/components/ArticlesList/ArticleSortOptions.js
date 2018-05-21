@@ -6,7 +6,9 @@ const ArticleSortOptions = ({
   onSortKeyChange,
   onSortDirectionChange,
   sortKey,
-  sortDirection
+  sortDirection,
+  searchFilter,
+  onSearchFilterChange
 }) => {
   return (
     <Fragment>
@@ -29,6 +31,14 @@ const ArticleSortOptions = ({
         <option value="ASC">Ascending</option>
         <option value="DESC">Descending</option>
       </FormControl>
+
+      <ControlLabel>Search</ControlLabel>
+      <FormControl
+        type="text"
+        value={searchFilter}
+        placeholder="Enter search terms..."
+        onChange={onSearchFilterChange}
+      />
     </Fragment>
   )
 }

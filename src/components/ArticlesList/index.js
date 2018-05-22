@@ -11,11 +11,11 @@ import { actions as articleActions } from './../../rdx/articles';
 import { selectors as articleSelectors } from './../../rdx/articles'
 import ArticleTable from './ArticleTable';
 import ArticleSortOptions from './ArticleSortOptions';
+import ArticleFilterOptions from './ArticleFilterOptions';
 import withPaginated from './../common/withPagination';
 
 // composed with higher order function
 const ArticleTableWithPaginated = withPaginated(ArticleTable);
-
 
 class ArticleList extends React.Component {
   constructor(props) {
@@ -24,12 +24,18 @@ class ArticleList extends React.Component {
     this.state = {
       sortKey: 'id',
       sortDirection: 'ASC',
-      searchFilter: null
+      searchFilter: null,
+      optionsFilter: [
+        {label: 'COMPLETE', checked: false},
+        {label: 'INCOMPLETE', checked: false},
+        {label: 'HIDDEN', checked: false},
+      ]
     }
 
     this.handlePageJump = this.handlePageJump.bind(this);
     this.handleQueryParamChange = this.handleQueryParamChange.bind(this);
     this.handleSearchFilterChange = this.handleSearchFilterChange.bind(this);
+    this.handleOptionFilterChange = this.handleOptionFilterChange.bind(this);
   }
 
   componentDidMount() {
@@ -51,7 +57,6 @@ class ArticleList extends React.Component {
   handleQueryParamChange(keyName) {
     return (e) => {
       this.setState({
-        ...this.state,
         [keyName]: e.target.value
       }, () => {
         this.props.actions.fetchArticles({
@@ -65,14 +70,31 @@ class ArticleList extends React.Component {
   // special version for filter to add a debounce delay while user is typing
   handleSearchFilterChange(e) {
     this.setState({
-      ...this.state,
       searchFilter: e.target.value
     }, () => {
       this.props.actions.changeSearchFilter({
         ...this.state,
         clearCache: true
-      })
-    })
+      });
+    });
+  }
+
+  handleOptionFilterChange(index) {
+    return (e) => {
+      const { optionsFilter } = this.state;
+      optionsFilter[index].checked = !optionsFilter[index].checked;
+
+      this.setState({
+        optionsFilter
+      }, () => {
+        this.props.actions.fetchArticles({
+          ...this.state,
+          clearCache: true
+        });
+      });
+
+      // TODO: change fetchArticles to include option to set page to 1
+    }
   }
 
 
@@ -80,6 +102,11 @@ class ArticleList extends React.Component {
     const { allArticles, isLoading, currentPageArticles, currentPage, lastPage } = this.props;
     return (
       <Fragment>
+        <ArticleFilterOptions 
+          optionsList={this.state.optionsFilter}
+          handleChange={this.handleOptionFilterChange}
+        /> 
+        {/* TODO: finish the component */}
         <ArticleSortOptions
           sortKey={this.state.sortKey}
           sortDirection={this.state.sortDirection}

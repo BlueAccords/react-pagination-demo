@@ -29,7 +29,7 @@ export function* watchArticleFetchRequest() {
 }
 
 export function* articlesFetch(action) {
-  const { page, sortKey, sortDirection, clearCache=false, searchFilter=null } = action.payload;
+  const { page, sortKey, sortDirection, clearCache=false, searchFilter=null, optionsFilter } = action.payload;
 
   try {
     if(clearCache) {
@@ -47,7 +47,8 @@ export function* articlesFetch(action) {
         page: pageParam,
         sortKey,
         sortDirection,
-        searchFilter
+        searchFilter,
+        optionsFilter
       });
       yield put(actions.articlesSetCurrentPage(data.currentPage)); // set current page
       yield put(actions.articlesFetchSuccess(data));

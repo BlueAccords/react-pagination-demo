@@ -7,17 +7,19 @@ const LIMIT = 25;
 
 const articlesFetch = async (params) => {
   try {
-    const { page, sortKey, sortDirection, searchFilter } = params;
+    const { page, sortKey, sortDirection, searchFilter, optionsFilter } = params;
 
     const queryString = helpers.concatParams({
       _page: page,
       _limit: LIMIT,
       _sort: sortKey,
       _order: sortDirection,
-      q: searchFilter
+      q: searchFilter,
+      folder_type: optionsFilter
     });
 
     // const url = BASE_URL.concat(`articles/?_page=${page}&_limit=${25}&_sort=${sortKey}&_order=${sortDirection}`);
+    console.log(queryString);
     const url = BASE_URL.concat('articles/', '?', queryString);
     const response = await axios.get(url);
     const totalCount = response.headers['x-total-count'];

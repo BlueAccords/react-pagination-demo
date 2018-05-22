@@ -89,7 +89,8 @@ class ArticleList extends React.Component {
       }, () => {
         this.props.actions.fetchArticles({
           ...this.state,
-          clearCache: true
+          clearCache: true,
+          page: 1
         });
       });
 
